@@ -11,7 +11,7 @@ post_profil.add_argument('name', type = str, required=True)
 post_profil.add_argument('company', type = str, required=True)
 post_profil.add_argument('email', type = str, required=False)
 post_profil.add_argument('number', type = str, required=False)
-post_profil.add_argument('token', type = str, required=True)
+post_profil.add_argument('password', type = str, required=True)
 
 
 profil_get_args = reqparse.RequestParser()
@@ -25,31 +25,32 @@ get_result = {
     'company':fields.String,
     'email': fields.String,
     'number': fields.String,
-    'token': fields.String
+    'password': fields.String
 }
 
 get_res = []
 my_list = []
 
-class Profil(Resource):
+class Register(Resource):
 
     idCounter = 0
     def post(self):
-        Profil.idCounter += 1
+        Register.idCounter += 1
         rec = post_profil.parse_args()
         _name = rec['name']
         _company = rec['company']
         _email = rec['email']
         _number = rec['number']
-        _token = rec['token']
-        dict_ = {'id': Profil.idCounter, 'name': _name, 'company': _company, 'email': _email , 'number': _number, 'token': _token}
+        _password = rec['password']
+        dict_ = {'id': Register.idCounter, 'name': _name, 'company': _company, 'email': _email , 'number': _number, 'password': _password}
         my_list.append(dict_)
         db = open('data.json', "w+")
         json.dump(my_list, db)
         db.close()
-        return {"result": True}, 201
+        return {'register': True}, 201
 
-api.add_resource(Profil, '/profil')
+
+api.add_resource(Register, '/register')
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5000, debug=True)
