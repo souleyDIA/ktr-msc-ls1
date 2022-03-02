@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { Provider, defaultTheme } from '@adobe/react-spectrum'
 import Profil from './component/register'
+import Login from './component/login'
 
 function App() {
     return (
@@ -15,7 +16,8 @@ function App() {
         >
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/" component={Profil} />
+                    <Route exact path="/register" component={Profil} />
+                    <Route exact path="/" component={Login} />
                 </Switch>
             </BrowserRouter>
         </Provider>

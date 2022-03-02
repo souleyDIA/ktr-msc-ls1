@@ -11,28 +11,26 @@ import {
 } from '@adobe/react-spectrum'
 
 const dataContent = {
-    name: '',
-    company: '',
     email: '',
-    number: '',
     password: '',
 }
 
-function Profil() {
+function Login() {
     const [playload, setPlayload] = useState(dataContent)
-    const [data, setRegistered] = useState()
+    const [user, setUser] = useState()
 
     function createProfil() {
         axios
-            .post('/register', playload)
+            .post('/login', playload)
             .then((data) => {
-                setRegistered(data.registered)
+                setUser(data?.access_token)
+                console.log('log', data)
             })
             .catch((error) => console.log(error))
         console.log('here', playload)
     }
 
-    function goToLoginPage() {
+    function goToLibrary() {
         window.location.href = '/login'
     }
 
@@ -49,30 +47,7 @@ function Profil() {
                                 alignContent="center"
                                 gap="size-200"
                             >
-                                <Heading level={1}>Create a profil</Heading>
-
-                                <TextField
-                                    width="50%"
-                                    key="name"
-                                    placeholder="name"
-                                    value={playload.name}
-                                    onChange={(v) =>
-                                        setPlayload({ ...playload, name: v })
-                                    }
-                                />
-
-                                <TextField
-                                    width="50%"
-                                    key="company"
-                                    placeholder="company"
-                                    value={playload.company}
-                                    onChange={(v) =>
-                                        setPlayload({
-                                            ...playload,
-                                            company: v,
-                                        })
-                                    }
-                                />
+                                <Heading level={1}>Login</Heading>
                                 <TextField
                                     width="50%"
                                     key="email"
@@ -86,22 +61,10 @@ function Profil() {
                                         })
                                     }
                                 />
+
                                 <TextField
                                     width="50%"
-                                    key="number"
-                                    placeholder="number"
-                                    type="number"
-                                    value={playload.number}
-                                    onChange={(v) =>
-                                        setPlayload({
-                                            ...playload,
-                                            number: v,
-                                        })
-                                    }
-                                />
-                                <TextField
-                                    width="50%"
-                                    key="poassword"
+                                    key="password"
                                     placeholder="password"
                                     type="password"
                                     value={playload.password}
@@ -115,7 +78,7 @@ function Profil() {
                             </Flex>
                             <ActionButton onPress={createProfil}>
                                 <Flex direction="row" gap="size-600">
-                                    <Text> Register </Text>
+                                    <Text> Login </Text>
                                 </Flex>
                             </ActionButton>
                         </Form>
@@ -126,4 +89,4 @@ function Profil() {
     )
 }
 
-export default Profil
+export default Login
