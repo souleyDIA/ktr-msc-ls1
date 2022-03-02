@@ -23,18 +23,19 @@ function Login() {
         axios
             .post('/login', playload)
             .then((data) => {
-                setUser(data?.access_token)
-                console.log('log', data)
+                localStorage.setItem('token', data?.data?.access_token)
+                setUser(data?.data?.access_token)
             })
             .catch((error) => console.log(error))
-        console.log('here', playload)
     }
 
     function goToLibrary() {
-        window.location.href = '/login'
+        window.location.href = '/library'
     }
 
-    return (
+    return user ? (
+        goToLibrary()
+    ) : (
         <View backgroundColor="gray-200" width="100%" height="100%">
             <View padding="size-3000">
                 <Flex direction="column" alignItems="center">

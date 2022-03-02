@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider, defaultTheme } from '@adobe/react-spectrum'
 import Profil from './component/register'
 import Login from './component/login'
+import Library from './component/library'
 
 function App() {
     return (
@@ -16,8 +17,9 @@ function App() {
         >
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/register" component={Profil} />
-                    <Route exact path="/" component={Login} />
+                    <Route exact path="/" component={Profil} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/library" component={Library} />
                 </Switch>
             </BrowserRouter>
         </Provider>

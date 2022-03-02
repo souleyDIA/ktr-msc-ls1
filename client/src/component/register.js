@@ -26,17 +26,19 @@ function Profil() {
         axios
             .post('/register', playload)
             .then((data) => {
-                setRegistered(data.registered)
+                console.log('data', data?.data?.registed)
+                setRegistered(data?.data?.registed)
             })
             .catch((error) => console.log(error))
-        console.log('here', playload)
     }
 
     function goToLoginPage() {
         window.location.href = '/login'
     }
 
-    return (
+    return data ? (
+        goToLoginPage()
+    ) : (
         <View backgroundColor="gray-200" width="100%" height="100%">
             <View padding="size-3000">
                 <Flex direction="column" alignItems="center">
