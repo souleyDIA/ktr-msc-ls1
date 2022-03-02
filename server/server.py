@@ -2,13 +2,8 @@ from flask import Flask
 from flask_restx import Api, Resource, reqparse, fields
 import json
 import bcrypt
-
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
-
-
+import jwt
+from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
@@ -50,6 +45,17 @@ def check_password(plain_text_password, hashed_password):
     # Check hashed password. Using bcrypt, the salt is saved into the hash itself
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
+def generate_grant_token(username):
+
+
+    payload =  {
+            'exp': datetime.utcnow() + timedelta(minutes=5),
+            'iat': datetime.utcnow(),
+            "username": username,
+        }
+
+    return jwt.encode(payload, "secret",  algorithm='HS256') 
+
 class Register(Resource):
 
     idCounter = 0
@@ -69,7 +75,7 @@ class Register(Resource):
         db = open('data.json', "w+")
         json.dump(my_list, db)
         db.close()
-        return {'register': True}, 201
+        return {'registed': True}, 201
 
 class Login(Resource):
  
@@ -81,10 +87,10 @@ class Login(Resource):
         password =  rec["password"]
         for user in data:
                _check_password = check_password(password, user["password"])
-
                if user["email"] == email and _check_password:
                      # Here generate token for each user
-                     return {"access_token": True}, 200
+                     token = generate_grant_token(user['name'])
+                     return {"access_token": token}, 200
                else: 
                      return {"message": "Bad user or Password"}, 401
 
